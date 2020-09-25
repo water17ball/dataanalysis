@@ -32,9 +32,15 @@
             </exclusions>
         </dependency>
 
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-jetty</artifactId>-->
+        <!--<version>${spring.boot.version}</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jetty</artifactId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
         <!-- 处理配置文件 -->
