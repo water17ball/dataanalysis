@@ -1,0 +1,181 @@
+server:
+  port: 15427
+
+# 元数据
+metadata:
+  sys:
+    data-code-separator: _
+
+# 监控
+app:
+  id: bigdata_metadataBackend_prod
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      influx:
+        enabled: false
+        #此处influx的数据库统一为applications数据库，名字不用改
+        db: applications
+        #测试环境和生产环境地址不同
+        uri: http://10.39.46.5:8086
+        connect-timeout: 1s
+        read-timeout: 10s
+        auto-create-db: true
+        step: 1m
+        num-threads: 2
+        consistency: one
+        compressed: true
+        batch-size: 10000
+
+# cim api
+cim:
+  api:
+    url: http://base-zuul-fnw-release.topaas.enncloud.cn
+  indiceApi: #CimApiServiceImpl使用
+    baseUrl: http://base-zuul-fnw-release.topaas.enncloud.cn/cim/api-service
+    statisticUrl: http://cim-statistical-fnw-release.topaas.enncloud.cn
+  http:
+    name: cim-api-http
+    connectTimeout: 20000
+    socketTimeout: 60000
+    keepAlive: 60000
+
+# cim api proxy
+cim-proxy:
+  api:
+    name: cim-proxy
+    urlHost: http://base-zuul-fnw-test.topaas.enncloud.cn
+    prefix: /cim-proxy
+    excludeHeaders:
+    - Host
+  http:
+    name: cim-api-proxy-http
+    connectTimeout: 20000
+    socketTimeout: 60000
+    keepAlive: 60000
+
+# cim statistical proxy
+cim-statistical-proxy:
+  api:
+    name: cim-statistical-proxy
+    urlHost: http://cim-statistical-fnw-release.topaas.enncloud.cn
+    prefix: /cim-statistical-proxy
+    excludeHeaders:
+    - Host
+  http:
+    name: cim-statistical-proxy-http
+    connectTimeout: 20000
+    socketTimeout: 60000
+    keepAlive: 60000
+
+indice:
+  replenishApi:
+    url: http://indice-calculator-fnw-release.topaas.enncloud.cn/indice/replenishAsync
+  calcResultApi:
+    url: http://bigdata-api-fnw-release.topaas.enncloud.cn/internal/bigdata/calculation/get_result
+multi-datasource:
+  # 元数据
+  metadata:
+    mybatis:
+      mapper-location: classpath:metadata/mapper/*.xml
+    # 分页插件
+    pagehelper:
+      # 默认可根据数据库链接选择，也可手动指定
+      helperDialect: mysql
+      # 默认false，设置为true时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页
+      reasonable: false
+      # 默认false，设置为true时，pageSize=0返回所有结果
+      pageSizeZero: true
+    datasource:
+      url: jdbc:mysql://10.39.41.245:3306/bigdata_portal?useSSL=false&characterEncoding=utf8
+      username: bd_portal
+      password: ie5nZLs4lp$M
+      driver-class-name: com.mysql.jdbc.Driver
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 600000
+  # hive元数据
+  hivemeta:
+    mybatis:
+      mapper-location: classpath:hivemeta/mapper/*.xml
+    # 分页插件
+    pagehelper:
+      # 默认可根据数据库链接选择，也可手动指定
+      helperDialect: mysql
+      # 默认false，设置为true时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页
+      reasonable: false
+      # 默认false，设置为true时，pageSize=0返回所有结果
+      pageSizeZero: true
+    datasource:
+      url: jdbc:mysql://10.39.48.189:3306/metastore?useSSL=false&characterEncoding=utf8
+      username: botao
+      password: botaoHandsome
+      driver-class-name: com.mysql.jdbc.Driver
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 600000
+
+  # 指标数据
+  indice:
+    mybatis:
+      mapper-location: classpath:indice/mapper/*.xml
+    # 分页插件
+    pagehelper:
+      # 默认可根据数据库链接选择，也可手动指定
+      helperDialect: mysql
+      # 默认false，设置为true时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页
+      reasonable: false
+      # 默认false，设置为true时，pageSize=0返回所有结果
+      pageSizeZero: true
+    datasource:
+      url: jdbc:mysql://10.39.41.245:3306/calculation?useSSL=false&characterEncoding=utf8
+      username: bd_portal
+      password: ie5nZLs4lp$M
+      driver-class-name: com.mysql.jdbc.Driver
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 600000
+# cors
+cors:
+  global:
+    enable: true
+    allowedOrigins: "*"
+    allowedMethods: "*"
+    allowedHeaders: "*"
+
+# on/off swagger2
+swagger2:
+  enable: true
+
+#log level
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    #info debug 'off'
+    root: info
+    org.springframework.web: info
+    cn.enn: info
+  file: logs/metadata.log
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %thread \(%logger:%line\) - %msg%n'
+bigdata-api:
+  baseurl: http://bigdata-api-fnw-release.topaas.enncloud.cn
+  history: /internal/bigdata/time_series/get_history
+  datacode: /internal/bigdata/business/get
+
+rest-template:
+  connect-timeout: 300000
+  request-timeout: 300000
+  read-timeout: 300000
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

@@ -1,0 +1,92 @@
+server:
+  port: 15427
+
+# 元数据
+metadata:
+  sys:
+    data-code-separator: _
+
+# 监控
+app:
+  id: bigdata_metadataBackend_dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      influx:
+        enabled: false
+        #此处influx的数据库统一为applications数据库，名字不用改
+        db: applications
+        #测试环境和生产环境地址不同
+        uri: http://10.39.46.4:8086
+        connect-timeout: 1s
+        read-timeout: 10s
+        auto-create-db: true
+        step: 1m
+        num-threads: 2
+        consistency: one
+        compressed: true
+        batch-size: 10000
+
+# cim api
+cim:
+  api:
+    url: http://base-zuul-fnw-test.topaas.enncloud.cn
+  http:
+    name: cim-api-http
+    connectTimeout: 20000
+    socketTimeout: 60000
+    keepAlive: 60000
+
+multi-datasource:
+  # 元数据
+  metadata:
+    mybatis:
+      mapper-location: classpath:metadata/mapper/*.xml
+    # 分页插件
+    pagehelper:
+      # 默认可根据数据库链接选择，也可手动指定
+      helperDialect: mysql
+      # 默认false，设置为true时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页
+      reasonable: false
+      # 默认false，设置为true时，pageSize=0返回所有结果
+      pageSizeZero: true
+    datasource:
+      url: jdbc:mysql://localhost:3306/bigdata_portal_test?useSSL=false&characterEncoding=utf8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 600000
+
+
+# cors
+cors:
+  global:
+    enable: true
+    allowedOrigins: "*"
+    allowedMethods: "*"
+    allowedHeaders: "*"
+
+# on/off swagger2
+swagger2:
+  enable: true
+
+#log level
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    #info debug 'off'
+    root: info
+    org.springframework.web: info
+    cn.enn: debug
+    io.micrometer: debug
+
+  file: logs/metadata.log
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %thread \(%logger:%line\) - %msg%n'

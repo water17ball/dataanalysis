@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 配置Run As Maven build : Goals 参数 : mybatis-generator:generate -Dmybatis.generator.overwrite=true -->
+<!-- 配置 tableName,使用 Run As Maven build 生成 dao model 层 -->
+<generatorConfiguration>
+    <!-- plugin 中加入 mysql dependency 则不需要配置class  -->
+    <!--数据库驱动包路径 -->
+    <!--<classPathEntry-->
+    <!--location="${jdbc.classpath}"/>-->
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!--是否生成注释 -->
+            <property name="suppressAllComments" value="false"/>
+            <!-- 是否生成时间戳 -->
+            <property name="suppressDate" value="false"/>
+        </commentGenerator>
+
+        <!-- 高版本 driver 额外设置；否则无法读取主键，无法生成主键相关的代码 table catalog="bigdata_portal"  或者 url 加入参数：nullCatalogMeansCurrent=true -->
+        <!--数据库连接信息 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://10.39.46.24:3306/calculation?nullCatalogMeansCurrent=true"
+                        userId="portal" password="pwdportal">
+        </jdbcConnection>
+
+        <!--生成的model 包路径 -->
+        <javaModelGenerator targetPackage="cn.enn.bigdata.dataanalysis.model.metadata"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成xml mapper文件 路径 -->
+        <sqlMapGenerator targetPackage="mapper/metadata"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成的Dao接口 的包路径 -->
+        <!-- TYPE=ANNOTATEDMAPPER: 纯注解，有Sql Provider; TYPE=MIXEDMAPPER：注解混合xml，无Sql
+          Provider; TYPE=XMLMAPPER：纯xml -->
+        <javaClientGenerator type="MIXEDMAPPER"
+                             targetPackage="cn.enn.bigdata.dataanalysis.dao.metadata" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--对应数据库表名 -->
+        <table tableName="calc_code">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

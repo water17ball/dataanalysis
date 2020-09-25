@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--使用spring boot默认的 console appender-->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <!--输出到控制台，括号+文件+行号可以直接关联文件-->
+    <!--()需要转义-->
+    <!--<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+    <!--<encoder>-->
+    <!--<charset>UTF-8</charset>-->
+    <!--<pattern>-->
+    <!--%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %thread \(%file:%line\) - %msg%n-->
+    <!--</pattern>-->
+    <!--</encoder>-->
+    <!--</appender>-->
+    <!--输出到文件-->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_FILE}</File>
+        <!--按日期切割-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!--<appender name="FileRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<File>${LOG_FILE}</File>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<fileNamePattern>datalog.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
+            <!--<maxHistory>30</maxHistory>-->
+            <!--<totalSizeCap>3GB</totalSizeCap>-->
+        <!--</rollingPolicy>-->
+
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+            <!--<fileNamePattern>datalog.%d-%i</fileNamePattern>-->
+            <!--<maxFileSize>300MB</maxFileSize>-->
+        <!--</rollingPolicy>-->
+
+    <!--</appender>-->
+    <!--<appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">-->
+        <!--<encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">-->
+            <!--<layout class="net.logstash.logback.layout.LogstashLayout">-->
+                <!--<customFields>{"appId":"bigdata_metadataBackend","hostname":"${HOSTNAME}"}</customFields>-->
+                <!--<fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>-->
+            <!--</layout>-->
+            <!--<charset>UTF-8</charset>-->
+        <!--</encoder>-->
+        <!--<topic>fnw_logging_kafka_topic</topic>-->
+        <!--<keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy"/>-->
+        <!--<deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>-->
+        <!--<producerConfig>bootstrap.servers=10.39.40.25:9092,10.39.40.29:9092,10.39.40.30:9092</producerConfig>-->
+
+        <!--&lt;!&ndash; this is the fallback appender if kafka is not available. &ndash;&gt;-->
+        <!--<appender-ref ref="CONSOLE"/>-->
+    <!--</appender>-->
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <!--<appender-ref ref="FileRolling"/>-->
+    </root>
+</configuration>
