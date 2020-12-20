@@ -1,6 +1,7 @@
 package cn.enn.bigdata.dataanalysis.controller;
 
 import cn.enn.bigdata.dataanalysis.aop.annotation.PrintMethod;
+import cn.enn.bigdata.dataanalysis.aop.annotation.PrintMethodResult;
 import cn.enn.bigdata.dataanalysis.entity.Student;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +22,7 @@ public class HelloController {
     public static String[] chars = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "J", "H", "I", "G", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     @PrintMethod
+    @PrintMethodResult
     @ApiOperation(value = "获取hello", notes = "获取hello")
     @GetMapping("/get")
     public String getHello(){
