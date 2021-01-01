@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.lang.Character;
+import java.text.SimpleDateFormat;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebApplication.class)
 public class HouseControllerTest {
@@ -47,6 +50,23 @@ public class HouseControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
+    }
+
+    @Test
+    public void testCommon() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        Character[] cStr = new Character[30];
+        for (int i = 0; i < cStr.length; i++) {
+            cStr[i] = (char) ('a' + i);
+            System.out.print(cStr[i] + " ");
+        }
+
+
+    }
+
+    public static void main(String[] args) {
+        HouseControllerTest houseControllerTest = new HouseControllerTest();
+        houseControllerTest.testCommon();
     }
 
 
