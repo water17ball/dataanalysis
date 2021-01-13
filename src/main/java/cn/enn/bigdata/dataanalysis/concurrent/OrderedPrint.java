@@ -152,61 +152,74 @@ public class OrderedPrint {
     public static void main(String[] args) {
         int[] orderArray = {2, 3, 1};
         OrderedPrint orderedPrint = new OrderedPrint();
-        Runnable runnable0 = new Runnable() {
-            private int curIndex = 0;
+//        Runnable runnable0 = new Runnable() {
+//            private int curIndex = 0;
+//
+//            @Override
+//            public void run() {
+//                try {
+//                    orderedPrint.printByIndex(curIndex);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        Runnable runnable1 = new Runnable() {
+//            private int curIndex = 1;
+//
+//            @Override
+//            public void run() {
+//                try {
+//                    orderedPrint.printByIndex(curIndex);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        Runnable runnable2 = new Runnable() {
+//            private int curIndex = 2;
+//
+//            @Override
+//            public void run() {
+//                try {
+//                    orderedPrint.printByIndex(curIndex);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//
+//
+//        for (int i = 0; i < orderArray.length; i++) {
+//            System.out.println("curIndex:" + i + ", num:" + orderArray[i]);
+//            Runnable runnable = null;
+//            switch (orderArray[i] - 1) {
+//                case 0:
+//                    runnable = runnable0;
+//                    break;
+//                case 1:
+//                    runnable = runnable1;
+//                    break;
+//                case 2:
+//                    runnable = runnable2;
+//                    break;
+//
+//            }
+//            Thread thread = new Thread(runnable);
+//            thread.start();
+//        }
 
-            @Override
-            public void run() {
-                try {
-                    orderedPrint.printByIndex(curIndex);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+        //通过cglib动态代理，将函数执行全部代理一遍，在执行方法之前封装成callcable，然后使用executor调用.
+        //这样比上面的Runnable方式简便。省去了显式声明Runnable。
+        try {
+            AsyncProxyCGlib asyncProxyCGlib = new AsyncProxyCGlib();
+            OrderedPrint proxy = (OrderedPrint) asyncProxyCGlib.getProxy(OrderedPrint.class);
+            for (int i = 0; i < orderArray.length; i++) {
+                proxy.printByIndex(orderArray[i] - 1);
             }
-        };
-        Runnable runnable1 = new Runnable() {
-            private int curIndex = 1;
-
-            @Override
-            public void run() {
-                try {
-                    orderedPrint.printByIndex(curIndex);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        Runnable runnable2 = new Runnable() {
-            private int curIndex = 2;
-
-            @Override
-            public void run() {
-                try {
-                    orderedPrint.printByIndex(curIndex);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-
-        for (int i = 0; i < orderArray.length; i++) {
-            System.out.println("curIndex:" + i + ", num:" + orderArray[i]);
-            Runnable runnable = null;
-            switch (orderArray[i] - 1) {
-                case 0:
-                    runnable = runnable0;
-                    break;
-                case 1:
-                    runnable = runnable1;
-                    break;
-                case 2:
-                    runnable = runnable2;
-                    break;
-
-            }
-            Thread thread = new Thread(runnable);
-            thread.start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
 
