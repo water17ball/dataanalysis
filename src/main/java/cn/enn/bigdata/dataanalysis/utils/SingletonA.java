@@ -2,6 +2,7 @@ package cn.enn.bigdata.dataanalysis.utils;
 
 import cn.enn.bigdata.dataanalysis.entity.Bottle;
 import cn.enn.bigdata.dataanalysis.entity.Cup;
+import cn.enn.bigdata.dataanalysis.entity.Integer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
@@ -60,6 +61,10 @@ public class SingletonA {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        Integer integer = new Integer();//自定义的与系统类重名的竟然也可以。。。包名不一样。
+        integer.setValue(100);
+        System.out.println(integer);
 
     }
 }

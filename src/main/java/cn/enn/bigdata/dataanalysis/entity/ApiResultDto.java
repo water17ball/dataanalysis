@@ -9,7 +9,7 @@ import lombok.Data;
 public class ApiResultDto<E> {
 
     @ApiModelProperty("错误代码")
-    private Integer code;
+    private int code;
     @ApiModelProperty("错误信息")
     private String message;
     @ApiModelProperty("返回结果")

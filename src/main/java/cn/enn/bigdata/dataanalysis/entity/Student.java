@@ -15,7 +15,7 @@ public class Student {
     static AtomicInteger curIndex = new AtomicInteger();
     final int id = getInitId();
 
-    private Integer getInitId() {
+    private int getInitId() {
         return curIndex.getAndIncrement();
     }
 

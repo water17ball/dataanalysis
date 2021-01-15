@@ -192,3 +192,9 @@ rest-template:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers=127.0.0.1:9092:
