@@ -1,7 +1,7 @@
 package cn.enn.bigdata.dataanalysis.controller;
 
 import cn.enn.bigdata.dataanalysis.WebApplication;
-import cn.enn.bigdata.dataanalysis.controller.entity.User;
+import cn.enn.bigdata.dataanalysis.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
