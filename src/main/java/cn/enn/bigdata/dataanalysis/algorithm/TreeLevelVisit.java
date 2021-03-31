@@ -113,6 +113,50 @@ public class TreeLevelVisit {
 
     }
 
+    /**
+     * 层次遍历树(确定的层里面用for循环（用for循环的边界替代curLevelNum==0的判断）)
+     *
+     * @param root 用到的数据结构：
+     *             1）队列（存储未被访问的节点）
+     *             2）记录每个层次个数（或者记录当前层数，以及下一层的数目，2个变量）
+     *             3）当前节点（保存从队列中拿出来的当前节点）
+     */
+    public void visitLevelTreeAnother(Node root) {
+        List<Node> nodeList = new LinkedList<>();//存储未被访问的节点
+        Node curNode = null;
+
+        int curLevelNum = 0;//当前层数
+        int nextLevelNum = 0;//下一层数
+
+        nodeList.add(root);
+        nextLevelNum++;
+
+        System.out.println("打印开始");
+//        System.out.print("[");
+
+        while (!nodeList.isEmpty()) {
+
+            curLevelNum = nextLevelNum;//开始访问这一层
+            nextLevelNum = 0;
+
+            System.out.print("[");
+            for (int i = 0; i < curLevelNum; i++) {
+                curNode = ((LinkedList<Node>) nodeList).removeFirst();
+                System.out.print(curNode.getValue() + " ");
+                if (curNode.getLeftSon() != null) {
+                    nodeList.add(curNode.getLeftSon());
+                    nextLevelNum++;
+                }
+                if (curNode.getRightSon() != null) {
+                    nodeList.add(curNode.getRightSon());
+                    nextLevelNum++;
+                }
+            }
+            System.out.println("]");
+        }
+
+    }
+
 
     public static void main(String[] args) {
         int[] v = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -122,6 +166,7 @@ public class TreeLevelVisit {
         System.out.println(root);
 
         visit.visitLevelTree(root);
+        visit.visitLevelTreeAnother(root);
     }
 
 }
