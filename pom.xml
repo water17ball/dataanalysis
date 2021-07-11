@@ -303,23 +303,15 @@
     </build>
     <repositories>
         <repository>
-            <id>nexus-releases</id>
-            <url>http://maven.enncloud.cn/content/groups/public/</url>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <url>http://maven.enncloud.cn/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
             </snapshots>
         </repository>
     </repositories>
