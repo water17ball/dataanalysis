@@ -113,6 +113,66 @@ public class TreeLevelVisit {
 
     }
 
+    /**
+     * 层次遍历树-第二个版本
+     *  （与第一个版本在循环条件判断、弹出节点时机、循环条件重置方面有不同）
+     * @param root 用到的数据结构：
+     *             1）队列（存储未被访问的节点）
+     *             2）记录每个层次个数（或者记录当前层数，以及下一层的数目，2个变量）
+     *             3）当前节点（保存从队列中拿出来的当前节点）
+     */
+    public void visitLevelTreed2nd(Node root) {
+        List<Node> nodeList = new LinkedList<>();//存储未被访问的节点
+        Node curNode = null;
+
+        int curLevelNum = 0;//当前层数
+        int nextLevelNum = 0;//下一层数
+
+        nodeList.add(root);
+        curLevelNum++;
+
+        System.out.println("打印开始");
+        System.out.print("[");
+
+        curNode = ((LinkedList<Node>) nodeList).removeFirst();
+        while ((curNode != null) && (curLevelNum != 0)) {
+
+            if (curNode.getLeftSon() != null) {
+                nodeList.add(curNode.getLeftSon());
+                nextLevelNum++;
+            }
+            if (curNode.getRightSon() != null) {
+                nodeList.add(curNode.getRightSon());
+                nextLevelNum++;
+            }
+
+            System.out.print(curNode.getValue() + " ");
+            curLevelNum--;//弹出一个，就减少一个
+
+            if (curLevelNum == 0) {//说明上一层已经完成了
+                curLevelNum = nextLevelNum;//再接着访问下一层
+                nextLevelNum = 0;
+
+                if(curLevelNum != 0){
+                    curNode = ((LinkedList<Node>) nodeList).removeFirst();
+                    System.out.println("]");
+                    System.out.print("[");
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                curNode = ((LinkedList<Node>) nodeList).removeFirst();
+            }
+
+
+        }
+
+        System.out.println("]");
+
+    }
+
 
     public static void main(String[] args) {
         int[] v = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -122,6 +182,7 @@ public class TreeLevelVisit {
         System.out.println(root);
 
         visit.visitLevelTree(root);
+        visit.visitLevelTreed2nd(root);
     }
 
 }
