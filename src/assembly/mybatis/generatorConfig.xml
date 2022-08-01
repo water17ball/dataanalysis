@@ -14,10 +14,25 @@
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <commentGenerator>
             <!--是否生成注释 -->
-            <property name="suppressAllComments" value="false"/>
+            <property name="suppressAllComments" value="true"/>
             <!-- 是否生成时间戳 -->
             <property name="suppressDate" value="false"/>
         </commentGenerator>
+
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!--<plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>-->
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+            <!-- datatime转为LocalDateTime，而不是DateTime -->
+            <property name="useJSR310Types" value="false"/>
+        </javaTypeResolver>
 
         <!-- 高版本 driver 额外设置；否则无法读取主键，无法生成主键相关的代码 table catalog="bigdata_portal"  或者 url 加入参数：nullCatalogMeansCurrent=true -->
         <!--数据库连接信息 -->
