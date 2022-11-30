@@ -115,7 +115,8 @@ public class LRU {
 
     /**
      * 从头部插入节点
-     * 如果是已有节点，则需要变更前后节点的指针；如果是新节点，则只处理自身指针
+     * 如果是已有节点，则需要变更前后节点的指针；如果是新节点，则只处理自身指针。
+     * 并且放入hashmap中。（节点操作与hash表操作都在这个方法中了）
      * @param node
      */
     private void putHead(DLinkedNode node) {
@@ -155,6 +156,7 @@ public class LRU {
 
     /**
      * 删除尾部的节点.
+     * 删除hashmap中的内容。（节点操作与hash表操作都在这个方法中了）
      */
     private void removeTail() {
         if(head.next == tail){
