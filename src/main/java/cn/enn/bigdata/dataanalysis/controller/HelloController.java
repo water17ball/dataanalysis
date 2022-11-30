@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
 
 @Api(value = "hello控制接口", tags = "hello控制接口")
 @RestController
@@ -19,13 +22,18 @@ public class HelloController {
     @Autowired
     Student student;
 
+    @Autowired
+    RestTemplate restTemplate;
+
+
+
     public static String[] chars = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "J", "H", "I", "G", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     @PrintMethod
     @PrintMethodResult
     @ApiOperation(value = "获取hello", notes = "获取hello")
     @GetMapping("/get")
-    public String getHello(){
+    public String get(){
         return "Hello";
     }
 
@@ -76,6 +84,8 @@ public class HelloController {
         System.out.println(g == (a + b));
         System.out.println(g.equals(a + b));
 
+        DelayQueue delayQueue = new DelayQueue();
+
 
     }
 
@@ -94,6 +104,16 @@ public class HelloController {
         System.out.println(student);
         return student.toString();
     }
+
+
+    @GetMapping("/getHello")
+    public String getHello() {
+        String url = "http://10.60.193.128:5000/hello";
+        return restTemplate.getForObject(url,String.class);
+    }
+
+
+
 
 
 
