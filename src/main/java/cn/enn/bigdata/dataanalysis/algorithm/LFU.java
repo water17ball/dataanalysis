@@ -228,6 +228,9 @@ public class LFU {
         lfu.get(2);
         lfu.put(4,4);
         lfu.put(5,5);
+//        lfu.get(5);
+//        lfu.put(6,6);
+//        lfu.put(7,7);
 
         lfu.print();
 
