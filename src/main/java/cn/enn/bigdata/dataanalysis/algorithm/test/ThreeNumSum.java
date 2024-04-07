@@ -28,6 +28,7 @@ public class ThreeNumSum {
                         list.add(nums[first]);
                         list.add(nums[second]);
                         list.add(nums[third]);
+                        result.add(list);
                     }
 
                     //三数之和小于目标，则换下一个second继续
