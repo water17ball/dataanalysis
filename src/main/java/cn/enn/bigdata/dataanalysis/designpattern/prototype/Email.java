@@ -2,6 +2,10 @@ package cn.enn.bigdata.dataanalysis.designpattern.prototype;
 
 import java.io.*;
 
+/**
+ * Serializable序列化接口没有任何方法或者字段，只是用于标识可序列化的语义。
+ * 实现了Serializable接口的类可以被ObjectOutputStream转换为字节流，同时也可以通过ObjectInputStream再将其解析为对象。
+ */
 public class Email implements Cloneable, Serializable {
     private Attachment attachment;
     Email(){
