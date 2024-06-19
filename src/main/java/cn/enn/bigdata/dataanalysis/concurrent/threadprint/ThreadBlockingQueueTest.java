@@ -1,4 +1,4 @@
-package cn.enn.bigdata.dataanalysis.concurrent.threadprint;
+package com.example.demo.test;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -10,7 +10,9 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class ThreadBlockingQueueTest {
 
-private ArrayBlockingQueue<Long> arrayBlockingQueue = new ArrayBlockingQueue<>(1);
+    private ArrayBlockingQueue<Long> arrayBlockingQueue = new ArrayBlockingQueue<>(1);
+    private ArrayBlockingQueue<Long> arrayBlockingQueueDoubleOne = new ArrayBlockingQueue<>(1);
+    private ArrayBlockingQueue<Long> arrayBlockingQueueDoubleTwo = new ArrayBlockingQueue<>(1);
     public void printChar() {
 
         Runnable runnable1 = () -> {
@@ -27,23 +29,67 @@ private ArrayBlockingQueue<Long> arrayBlockingQueue = new ArrayBlockingQueue<>(1
             }
         };
 
-            Runnable runnable2 = () -> {
-                for (char i = 'A'; i <= 'Z'; i++) {
-                    try {
-                        System.out.println(i);
-                        Long take = arrayBlockingQueue.take();
-                    }
-                    catch (Exception e){
-
-                    }
-                    finally {
-
-                    }
+        Runnable runnable2 = () -> {
+            for (char i = 'A'; i <= 'Z'; i++) {
+                try {
+                    System.out.println(i);
+                    Long take = arrayBlockingQueue.take();
                 }
-            };
+                catch (Exception e){
 
-       new Thread(runnable1).start();
-       new Thread(runnable2).start();
+                }
+                finally {
+
+                }
+            }
+        };
+
+        new Thread(runnable1).start();
+        new Thread(runnable2).start();
+
+
+    }
+
+    public void printCharDoubleBlock() {
+
+        Runnable runnable1 = () -> {
+            for (char i = 'a'; i <= 'z'; i++) {
+                try {
+                    arrayBlockingQueueDoubleOne.take();
+                    System.out.println(i);
+                    arrayBlockingQueueDoubleTwo.put(System.currentTimeMillis());
+
+                } catch (Exception e) {
+
+                } finally {
+
+                }
+            }
+        };
+
+        Runnable runnable2 = () -> {
+            for (char i = 'A'; i <= 'Z'; i++) {
+                try {
+                    arrayBlockingQueueDoubleTwo.take();
+                    System.out.println(i);
+                    arrayBlockingQueueDoubleOne.put(System.currentTimeMillis());
+                }
+                catch (Exception e){
+
+                }
+                finally {
+
+                }
+            }
+        };
+
+        new Thread(runnable1).start();
+        new Thread(runnable2).start();
+        try {
+            arrayBlockingQueueDoubleOne.put(System.currentTimeMillis());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -51,6 +97,9 @@ private ArrayBlockingQueue<Long> arrayBlockingQueue = new ArrayBlockingQueue<>(1
     public static void main(String[] args) {
         ThreadBlockingQueueTest threadTest = new ThreadBlockingQueueTest();
         threadTest.printChar();
+
+        System.out.println("--------------------new ------------------");
+        threadTest.printCharDoubleBlock();
 
     }
 }
