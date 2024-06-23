@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 public class ForkJoinTest {
     public static ForkJoinPool forkJoinPool = new ForkJoinPool(4);
+    public static ForkJoinPool forkJoinPool2 = ForkJoinPool.commonPool();//CompletableFuture和Parallel Streams，也是用这个公用的并行线程池 为了避免任何并行操作都引入一个线程池，最坏情况会导致在单个JVM上创建了太多的池线程，降低效率。
     static class Task extends RecursiveTask<Integer> {
         private int start;
         private int end;
